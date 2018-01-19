@@ -15,3 +15,4 @@ from src import vs_publish
 
 vs = vs_publish.VSPublish(config_file=config_file, logout=False)
 vs.climate_values()
+# vs.climate_values(u'2etGarasje')

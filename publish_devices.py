@@ -18,3 +18,7 @@ vs.arm_state()
 vs.door_lock()
 vs.door_window()
 vs.smart_plug()
+
+# vs.door_lock(u'1etGang')
+# vs.door_window(u'1etHoveddør')
+# vs.smart_plug(u'Telldus')

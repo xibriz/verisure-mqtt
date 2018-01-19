@@ -17,7 +17,6 @@ class VSPublish:
         self.logout = logout
         config = ConfigParser.RawConfigParser()
         config.readfp(codecs.open(config_file, 'r', 'utf8'))
-        # config.read('./config/prod.cfg')
 
         self.mqtt_ip = config.get('MQTT', 'ip')
         self.mqtt_port = config.getint('MQTT', 'port')
@@ -31,7 +30,6 @@ class VSPublish:
         self.verisure_username = config.get('Verisure', 'username')
         self.verisure_password = config.get('Verisure', 'password')
 
-        # print self.verisure_password
         self.overview = self._load_status()
 
     def _load_status(self):
@@ -67,9 +65,11 @@ class VSPublish:
 
         return True
 
-    def climate_values(self):
+    def climate_values(self, deviceAreaPublish = None):
         """
         Publish climate values
+        args:
+            deviceAreaPublish (string): If given, only publish this deviceArea
         """
         if self.overview is None:
             return False
@@ -77,7 +77,10 @@ class VSPublish:
             return None
 
         for climate in self.overview['climateValues']:
-            topic = self.climateValues_pub.format(deviceType=climate['deviceType'], deviceArea=climate['deviceArea'].replace(' ', ''))
+            deviceArea = climate['deviceArea'].replace(' ', '')
+            if deviceAreaPublish is not None and deviceAreaPublish != deviceArea:
+                 continue
+            topic = self.climateValues_pub.format(deviceType=climate['deviceType'], deviceArea=deviceArea)
             try:
                 publish.single(u'{}/temperature'.format(topic), climate['temperature'], hostname=self.mqtt_ip, port=self.mqtt_port)
             except KeyError:
@@ -86,12 +89,16 @@ class VSPublish:
                 publish.single(u'{}/humidity'.format(topic), climate['humidity'], hostname=self.mqtt_ip, port=self.mqtt_port)
             except KeyError:
                 pass
+            if deviceAreaPublish is not None and deviceAreaPublish == deviceArea:
+                 break
 
         return True
 
-    def door_lock(self):
+    def door_lock(self, areaPublish = None):
         """
         Publish door lock status
+        args:
+            areaPublish (string): If given, only publish this area
         """
         if self.overview is None:
             return False
@@ -99,18 +106,25 @@ class VSPublish:
             return None
 
         for doorLock in self.overview['doorLockStatusList']:
-            topic = self.doorLock_pub.format(area=doorLock['area'].replace(' ', ''))
+            area = doorLock['area'].replace(' ', '')
+            if areaPublish is not None and areaPublish != area:
+                continue
+            topic = self.doorLock_pub.format(area=area)
             try:
                 publish.single(u'{}/currentLockState'.format(topic), doorLock['currentLockState'], hostname=self.mqtt_ip, port=self.mqtt_port)
             except KeyError:
                 pass
+            if areaPublish is not None and areaPublish == area:
+                break
 
         return True
 
 
-    def door_window(self):
+    def door_window(self, areaPublish = None):
         """
         Publish door window status
+        args:
+            areaPublish (string): If given, only publish this area
         """
         if self.overview is None:
             return False
@@ -118,17 +132,24 @@ class VSPublish:
             return None
 
         for doorWindow in self.overview['doorWindow']['doorWindowDevice']:
-            topic = self.doorWindow_pub.format(area=doorWindow['area'].replace(' ', ''))
+            area = doorWindow['area'].replace(' ', '')
+            if areaPublish is not None and areaPublish != area:
+                continue
+            topic = self.doorWindow_pub.format(area=area)
             try:
                 publish.single(u'{}/state'.format(topic), doorWindow['state'], hostname=self.mqtt_ip, port=self.mqtt_port)
             except KeyError:
                 pass
+            if areaPublish is not None and areaPublish == area:
+                break
 
         return True
 
-    def smart_plug(self):
+    def smart_plug(self, areaPublish = None):
         """
         Publish smart plug status
+        args:
+            areaPublish (string): If given, only publish this area
         """
         if self.overview is None:
             return False
@@ -136,10 +157,15 @@ class VSPublish:
             return None
 
         for smartPlug in self.overview['smartPlugs']:
-            topic = self.smartPlug_pub.format(area=smartPlug['area'].replace(' ', ''))
+            area = smartPlug['area'].replace(' ', '')
+            if areaPublish is not None and areaPublish != area:
+                continue
+            topic = self.smartPlug_pub.format(area=area)
             try:
                 publish.single(u'{}/currentState'.format(topic), smartPlug['currentState'], hostname=self.mqtt_ip, port=self.mqtt_port)
             except KeyError:
                 pass
+            if areaPublish is not None and areaPublish == area:
+                break
 
         return True

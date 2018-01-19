@@ -6,7 +6,7 @@ Based on https://github.com/persandstrom/python-verisure
 
 ## Configuration
 
-Copy `default.cfg` to `prod.cfg` and fill in all the FIXME values
+Copy `config/default.cfg` to `config/prod.cfg` and fill in all the FIXME values
 
 ## Publish
 
