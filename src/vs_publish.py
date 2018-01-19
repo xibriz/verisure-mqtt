@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # coding: utf-8
 
 import ConfigParser
@@ -8,9 +8,15 @@ import codecs
 
 class VSPublish:
 
-    def __init__(self):
+    def __init__(self, config_file, logout=True):
+        """
+        args:
+            logout (bool): Log out after each request or stay logged in for
+                            faster requests when used in a cron job etc.
+        """
+        self.logout = logout
         config = ConfigParser.RawConfigParser()
-        config.readfp(codecs.open('./config/prod.cfg', 'r', 'utf8'))
+        config.readfp(codecs.open(config_file, 'r', 'utf8'))
         # config.read('./config/prod.cfg')
 
         self.mqtt_ip = config.get('MQTT', 'ip')
@@ -36,7 +42,8 @@ class VSPublish:
             session = verisure.Session(self.verisure_username, self.verisure_password)
             session.login()
             overview = session.get_overview()
-            session.logout()
+            if (self.logout):
+                session.logout()
 
             return overview
         except verisure.session.ResponseError:
