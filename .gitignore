@@ -102,3 +102,4 @@ ENV/
 
 # development
 config/prod.cfg
+test*.py

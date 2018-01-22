@@ -5,6 +5,7 @@ import ConfigParser
 import paho.mqtt.publish as publish
 import verisure
 import codecs
+import logging
 
 class VSControl:
 
@@ -30,7 +31,7 @@ class VSControl:
         self.doorLock_status = config.get('MQTT', 'doorLock_status')
 
         self.doorWindow_status = config.get('MQTT', 'doorWindow_status')
-        
+
         self.smartPlug_sub = config.get('MQTT', 'smartPlug_sub')
         self.smartPlug_status = config.get('MQTT', 'smartPlug_status')
 
@@ -53,7 +54,8 @@ class VSControl:
                 self.session.logout()
 
             return overview
-        except verisure.session.ResponseError:
+        except verisure.session.ResponseError as ex:
+            logging.info(ex)
             return None
 
     def set_arm_state(self, state):
@@ -73,8 +75,7 @@ class VSControl:
                 self.session.logout()
             return True
         except verisure.session.ResponseError as ex:
-            # TODO: Log errors
-            # print ex
+            logging.info(ex)
             return False
 
     def set_door_lock_state(self, area, state):
@@ -101,8 +102,7 @@ class VSControl:
                 self.session.logout()
             return True
         except verisure.session.ResponseError as ex:
-            # TODO: Log errors
-            # print ex
+            logging.info(ex)
             return False
 
     def set_smart_plug_state(self, area, state):
@@ -129,6 +129,5 @@ class VSControl:
                 self.session.logout()
             return True
         except verisure.session.ResponseError as ex:
-            # TODO: Log errors
-            # print ex
+            logging.info(ex)
             return False

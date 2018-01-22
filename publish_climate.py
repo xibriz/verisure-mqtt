@@ -13,6 +13,6 @@ config_file = os.path.join(main_base, "config", "prod.cfg")
 
 from src import vs_publish
 
-vs = vs_publish.VSPublish(config_file=config_file, logout=False)
+vs = vs_publish.VSPublish(config_file=config_file, logout=True)
 vs.climate_values()
 # vs.climate_values(u'2etGarasje')

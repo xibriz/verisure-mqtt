@@ -13,7 +13,7 @@ config_file = os.path.join(main_base, "config", "prod.cfg")
 
 from src import vs_publish
 
-vs = vs_publish.VSPublish(config_file=config_file, logout=False)
+vs = vs_publish.VSPublish(config_file=config_file, logout=True)
 vs.arm_state()
 vs.door_lock()
 vs.door_window()
