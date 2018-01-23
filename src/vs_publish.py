@@ -32,7 +32,8 @@ class VSPublish:
         self.verisure_password = config.get('Verisure', 'password')
 
         self.session = None
-        self.overview = self._load_status()
+        self.overview = None
+        self._load_status()
 
     def _load_status(self):
         """
@@ -41,11 +42,9 @@ class VSPublish:
         try:
             self.session = verisure.Session(self.verisure_username, self.verisure_password)
             self.session.login()
-            overview = self.session.get_overview()
+            self.overview = self.session.get_overview()
             if (self.logout):
                 self.session.logout()
-
-            return overview
         except verisure.session.ResponseError as ex:
             logging.info(ex)
             return None
@@ -55,7 +54,6 @@ class VSPublish:
         Publish arm state
         """
         if loadStatus:
-            self.session.logout()
             self._load_status()
         if self.overview is None:
             return False
@@ -80,7 +78,6 @@ class VSPublish:
             deviceAreaPublish (string): If given, only publish this deviceArea
         """
         if loadStatus:
-            self.session.logout()
             self._load_status()
         if self.overview is None:
             return False
@@ -114,7 +111,6 @@ class VSPublish:
             areaPublish (string): If given, only publish this area
         """
         if loadStatus:
-            self.session.logout()
             self._load_status()
         if self.overview is None:
             return False
@@ -144,7 +140,6 @@ class VSPublish:
             areaPublish (string): If given, only publish this area
         """
         if loadStatus:
-            self.session.logout()
             self._load_status()
         if self.overview is None:
             return False
@@ -173,7 +168,6 @@ class VSPublish:
             areaPublish (string): If given, only publish this area
         """
         if loadStatus:
-            self.session.logout()
             self._load_status()
         if self.overview is None:
             return False
