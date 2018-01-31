@@ -45,6 +45,7 @@ class VSPublish:
             self.overview = self.session.get_overview()
             if (self.logout):
                 self.session.logout()
+            #print self.overview
         except verisure.session.ResponseError as ex:
             logging.info(ex)
             return None
@@ -57,7 +58,8 @@ class VSPublish:
             self._load_status()
         if self.overview is None:
             return False
-        topic = self.armState_pub.format(name=self.overview['armState']['name'].replace(' ', ''))
+        #topic = self.armState_pub.format(name=self.overview['armState']['name'].replace(' ', ''))
+        topic = self.armState_pub.format(name='RubenAndreassen')
         try:
             publish.single(u'{}/statusType'.format(topic), self.overview['armState']['statusType'], hostname=self.mqtt_ip, port=self.mqtt_port)
         except KeyError as ex:
