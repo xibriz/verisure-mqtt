@@ -8,20 +8,20 @@ config_file = os.path.join(main_base, "config", "prod.cfg")
 import logging
 import requests
 
-try:
-	import http.client as http_client
-except ImportError:
-	import httplib as http_client
-http_client.HTTPConnection.debuglevel = 1
+#try:
+#	import http.client as http_client
+#except ImportError:
+#	import httplib as http_client
+#http_client.HTTPConnection.debuglevel = 1
 
-log_file = os.path.join(main_base, "log", "debug.txt")
-logging.basicConfig(filename=log_file, level=logging.DEBUG)
-logging.getLogger().setLevel(logging.DEBUG)
+#log_file = os.path.join(main_base, "log", "debug.txt")
+#logging.basicConfig(filename=log_file, level=logging.DEBUG)
+#logging.getLogger().setLevel(logging.DEBUG)
 
 
-requests_log = logging.getLogger("requests.packages.urllib3")
-requests_log.setLevel(logging.DEBUG)
-requests_log.propagate = True
+#requests_log = logging.getLogger("requests.packages.urllib3")
+#requests_log.setLevel(logging.DEBUG)
+#requests_log.propagate = True
 
 
 import paho.mqtt.client as mqtt
