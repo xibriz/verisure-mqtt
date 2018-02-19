@@ -35,8 +35,8 @@ vsc = vs_control.VSControl(config_file=config_file, logout=False)
 
 base = u'^{}$'
 
-rg_armState_set = re.compile(base.format(vsc.armState_sub.format(name='(.*?)').replace('/','\\/')), re.U)
-rg_armState_status = re.compile(base.format(vsc.armState_status.format(name='(.*?)').replace('/','\\/')), re.U)
+rg_armState_set = re.compile(base.format(vsc.armState_sub), re.U)
+rg_armState_status = re.compile(base.format(vsc.armState_status), re.U)
 
 rg_climateValues_status = re.compile(base.format(vsc.climateValues_status.format(deviceType='(.*?)', deviceArea='(.*?)').replace('/','\\/')), re.U)
 

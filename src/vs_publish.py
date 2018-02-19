@@ -58,8 +58,8 @@ class VSPublish:
             self._load_status()
         if self.overview is None:
             return False
-        #topic = self.armState_pub.format(name=self.overview['armState']['name'].replace(' ', ''))
-        topic = self.armState_pub.format(name='RubenAndreassen')
+        topic = self.armState_pub
+
         try:
             publish.single(u'{}/statusType'.format(topic), self.overview['armState']['statusType'], hostname=self.mqtt_ip, port=self.mqtt_port)
         except KeyError as ex:
