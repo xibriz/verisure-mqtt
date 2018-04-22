@@ -37,8 +37,8 @@ $ sudo systemctl start verisure-mqtt.service
 The MQTT output from the publish scripts will look something like this:
 
 ```
-verisure/armState/YourSystem/statusType ARMED_AWAY
-verisure/armState/YourSystem/changedVia CODE
+verisure/armState/statusType ARMED_AWAY
+verisure/armState/changedVia CODE
 verisure/doorLock/YourLock/currentLockState LOCKED
 verisure/doorWindow/YourDoorWindowSensor/state CLOSE
 verisure/smartPlug/YourSmartPlug/currentState ON
@@ -52,10 +52,10 @@ The following MQTT topics are available to control the system:
 
 Alarm functions
 ```
-$ mosquitto_pub -t 'verisure/armState/YourSystem/set' -m 'DISARMED'
-$ mosquitto_pub -t 'verisure/armState/YourSystem/set' -m 'ARMED_HOME'
-$ mosquitto_pub -t 'verisure/armState/YourSystem/set' -m 'ARMED_AWAY'
-$ mosquitto_pub -t 'verisure/armState/YourSystem/status' -m ''
+$ mosquitto_pub -t 'verisure/armState/set' -m 'DISARMED'
+$ mosquitto_pub -t 'verisure/armState/set' -m 'ARMED_HOME'
+$ mosquitto_pub -t 'verisure/armState/set' -m 'ARMED_AWAY'
+$ mosquitto_pub -t 'verisure/armState/status' -m ''
 ```
 
 SmartPlug functions
