@@ -14,10 +14,12 @@ config_file = os.path.join(main_base, "config", "prod.cfg")
 from src import vs_publish
 
 vs = vs_publish.VSPublish(config_file=config_file, logout=True)
+
 vs.arm_state()
 vs.door_lock()
 vs.door_window()
 vs.smart_plug()
+vs.vacation_status()
 
 # vs.door_lock(u'1etGang')
 # vs.door_window(u'1etHoveddør')

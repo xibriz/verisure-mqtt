@@ -23,6 +23,7 @@ class VSPublish:
         self.mqtt_port = config.getint('MQTT', 'port')
 
         self.armState_pub = config.get('MQTT', 'armState_pub')
+        self.vacationState_pub = config.get('MQTT', 'vacationState_pub')
         self.climateValues_pub = config.get('MQTT', 'climateValues_pub')
         self.doorLock_pub = config.get('MQTT', 'doorLock_pub')
         self.doorWindow_pub = config.get('MQTT', 'doorWindow_pub')
@@ -33,6 +34,7 @@ class VSPublish:
 
         self.session = None
         self.overview = None
+        self.vacation = None
         self._load_status()
 
     def _load_status(self):
@@ -43,6 +45,7 @@ class VSPublish:
             self.session = verisure.Session(self.verisure_username, self.verisure_password)
             self.session.login()
             self.overview = self.session.get_overview()
+            self.vacation = self.session.get_vacation_mode()
             if (self.logout):
                 self.session.logout()
             #print self.overview
@@ -190,3 +193,23 @@ class VSPublish:
                 break
 
         return True
+
+    def vacation_status(self, loadStatus = False):
+        """
+        Publish vacation tatus
+        """
+        if loadStatus:
+            self._load_status()
+        if self.vacation is None:
+            return False
+        elif 'cid' not in self.vacation:
+            return None
+        topic = self.vacationState_pub
+
+        for key, value in self.vacation.items():
+            try:
+                publish.single(u'{}/{}'.format(topic, key), value, hostname=self.mqtt_ip, port=self.mqtt_port)
+            except KeyError as ex:
+                logging.info(ex)
+                pass
+
