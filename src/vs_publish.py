@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # coding: utf-8
 
-import ConfigParser
+import configparser
 import paho.mqtt.publish as publish
 import verisure
 import codecs
@@ -16,7 +16,7 @@ class VSPublish:
                             faster requests when used in a cron job etc.
         """
         self.logout = logout
-        config = ConfigParser.RawConfigParser()
+        config = configparser.SafeConfigParser()
         config.readfp(codecs.open(config_file, 'r', 'utf8'))
 
         self.mqtt_ip = config.get('MQTT', 'ip')
