@@ -4,12 +4,14 @@ Publish verisure devices to MQTT
 Based on https://github.com/persandstrom/python-verisure
 
 ## Installation
+```
 $ git clone https://github.com/xibriz/verisure-mqtt.git
 $ cd verisure-mqtt
 $ python3 -m venv venv
 $ source venv/bin/activate
 $ pip3 install pip --upgrade
 $ pip3 install -r requirements.txt
+```
 
 ## Configuration
 

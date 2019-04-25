@@ -198,13 +198,15 @@ class VSPublish:
         """
         Publish vacation tatus
         """
+        topic = self.vacationState_pub
         if loadStatus:
             self._load_status()
         if self.vacation is None:
             return False
         elif 'cid' not in self.vacation:
+            # Publish active = False when no info is available
+            publish.single(u'{}/{}'.format(topic, 'active'), False, hostname=self.mqtt_ip, port=self.mqtt_port)
             return None
-        topic = self.vacationState_pub
 
         for key, value in self.vacation.items():
             try:
