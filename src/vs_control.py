@@ -16,6 +16,7 @@ class VSControl:
                             faster requests when used in a cron job etc.
         """
         self.logout = logout
+
         config = ConfigParser.SafeConfigParser()
         config.readfp(codecs.open(config_file, 'r', 'utf8'))
 
@@ -38,6 +39,9 @@ class VSControl:
         self.verisure_username = config.get('Verisure', 'username')
         self.verisure_password = config.get('Verisure', 'password')
         self.verisure_pin = config.get('Verisure', 'pin')
+        self.system_name = config.get('Verisure', 'system_name')
+        if self.system_name == 'DEFAULT':
+            self.system_name = None
 
         self.session = None
         self.overview = self._load_status()
@@ -49,6 +53,10 @@ class VSControl:
         try:
             self.session = verisure.Session(self.verisure_username, self.verisure_password)
             self.session.login()
+
+            if self.system_name is not None:
+                self._change_installation()
+
             overview = self.session.get_overview()
             if self.logout:
                 self.session.logout()
@@ -57,6 +65,12 @@ class VSControl:
         except verisure.session.ResponseError as ex:
             logging.info(ex)
             return None
+
+    def _change_installation(self):
+        for installation in self.session.installations:
+            if installation['alias'].lower() != self.system_name.lower():
+                continue
+            self.session.set_giid(installation['giid'])
 
     def set_arm_state(self, state):
         """
@@ -70,6 +84,8 @@ class VSControl:
             if self.logout:
                 self.session = verisure.Session(self.verisure_username, self.verisure_password)
                 self.session.login()
+                if self.system_name is not None:
+                    self._change_installation()
             self.session.set_arm_state(self.verisure_pin, state)
             if self.logout:
                 self.session.logout()
@@ -97,6 +113,8 @@ class VSControl:
             if self.logout:
                 self.session = verisure.Session(self.verisure_username, self.verisure_password)
                 self.session.login()
+                if self.system_name is not None:
+                    self._change_installation()
             self.session.set_lock_state(self.verisure_pin, deviceLabel, state)
             if self.logout:
                 self.session.logout()
@@ -124,6 +142,8 @@ class VSControl:
             if self.logout:
                 self.session = verisure.Session(self.verisure_username, self.verisure_password)
                 self.session.login()
+                if self.system_name is not None:
+                    self._change_installation()
             self.session.set_smartplug_state(deviceLabel, state)
             if self.logout:
                 self.session.logout()

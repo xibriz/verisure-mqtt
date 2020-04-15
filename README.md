@@ -17,16 +17,31 @@ $ pip3 install -r requirements.txt
 
 Copy `config/default.cfg` to `config/prod.cfg` and fill in all the FIXME values
 
+If you have multiple systems, you need one config file for each system. 
+Change `system_name` according to your installations **System name**
+You also need to change at least these topics in one of the config files to identify each installation:
+```
+armState_pub = verisure/armState
+armState_sub = verisure/armState/set
+armState_status = verisure/armState/status
+
+vacationState_pub = verisure/vacation
+```
+
 ## Publish
 
-Device and climate values can be published by running the files `publish_climate.py` and `publish_devices.py`
-There are instructions in each file on how to set up a cron job
+Device and climate values can be published by running `python3 publish_climate.py` and `python3 publish_devices.py`.
+You can spesify a custom config name like this: `python3 publish_climate.py prod2.cfg` and `python3 publish_devices.py prod2.cfg`.
+There are instructions in each file on how to set up a cron job.
+If you have multiple systems you need to set up each cron job multiple times with different config files.
 
 ## Subscribe
 
 Change the `WorkingDirectory` in `verisure-mqtt.service`
 
 Copy the .service-file to the system folder an enable the service-file
+
+If you have several innstallations you need to set up several services with different config files.
 
 ```
 Ubuntu:

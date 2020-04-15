@@ -1,9 +1,14 @@
 #!/usr/bin/python
 # coding: utf-8
 
+import sys
+config_file = "prod.cfg"
+if len(sys.argv) > 1:
+    config_file = sys.argv[1]
+
 import os
 main_base = os.path.dirname(__file__)
-config_file = os.path.join(main_base, "config", "prod.cfg")
+config_file = os.path.join(main_base, "config", config_file)
 
 import logging
 import requests

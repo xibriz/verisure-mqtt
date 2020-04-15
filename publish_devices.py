@@ -4,12 +4,17 @@
 """
 Publish all other devices except climate values.
 Make a cron job that runs every so often:
-* * * * * /usr/bin/python /path/to/publish_devices.py
+* * * * * /usr/bin/python /path/to/publish_devices.py prod.cfg
 """
+
+import sys
+config_file = "prod.cfg"
+if len(sys.argv) > 1:
+    config_file = sys.argv[1]
 
 import os
 main_base = os.path.dirname(__file__)
-config_file = os.path.join(main_base, "config", "prod.cfg")
+config_file = os.path.join(main_base, "config", config_file)
 
 from src import vs_publish
 

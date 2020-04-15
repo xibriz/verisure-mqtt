@@ -16,6 +16,7 @@ class VSPublish:
                             faster requests when used in a cron job etc.
         """
         self.logout = logout
+
         config = configparser.SafeConfigParser()
         config.readfp(codecs.open(config_file, 'r', 'utf8'))
 
@@ -31,6 +32,9 @@ class VSPublish:
 
         self.verisure_username = config.get('Verisure', 'username')
         self.verisure_password = config.get('Verisure', 'password')
+        self.system_name = config.get('Verisure', 'system_name')
+        if self.system_name == 'DEFAULT':
+            self.system_name = None
 
         self.session = None
         self.overview = None
@@ -44,6 +48,10 @@ class VSPublish:
         try:
             self.session = verisure.Session(self.verisure_username, self.verisure_password)
             self.session.login()
+
+            if self.system_name is not None:
+                self._change_installation()
+
             self.overview = self.session.get_overview()
             self.vacation = self.session.get_vacation_mode()
             if (self.logout):
@@ -52,6 +60,12 @@ class VSPublish:
         except verisure.session.ResponseError as ex:
             logging.info(ex)
             return None
+
+    def _change_installation(self):
+        for installation in self.session.installations:
+            if installation['alias'].lower() != self.system_name.lower():
+                continue
+            self.session.set_giid(installation['giid'])
 
     def arm_state(self, loadStatus = False):
         """
