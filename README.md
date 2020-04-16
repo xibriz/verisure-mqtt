@@ -37,7 +37,7 @@ If you have multiple systems you need to set up each cron job multiple times wit
 
 ## Subscribe
 
-Change the `WorkingDirectory` in `verisure-mqtt.service`
+Change the path to `WorkingDirectory` and `ExecStart` in `verisure-mqtt.service`
 
 Copy the .service-file to the system folder an enable the service-file
 
