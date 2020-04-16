@@ -84,8 +84,8 @@ class VSControl:
             if self.logout:
                 self.session = verisure.Session(self.verisure_username, self.verisure_password)
                 self.session.login()
-                if self.system_name is not None:
-                    self._change_installation()
+            if self.system_name is not None:
+                self._change_installation()
             self.session.set_arm_state(self.verisure_pin, state)
             if self.logout:
                 self.session.logout()
@@ -113,8 +113,8 @@ class VSControl:
             if self.logout:
                 self.session = verisure.Session(self.verisure_username, self.verisure_password)
                 self.session.login()
-                if self.system_name is not None:
-                    self._change_installation()
+            if self.system_name is not None:
+                self._change_installation()
             self.session.set_lock_state(self.verisure_pin, deviceLabel, state)
             if self.logout:
                 self.session.logout()
@@ -142,8 +142,8 @@ class VSControl:
             if self.logout:
                 self.session = verisure.Session(self.verisure_username, self.verisure_password)
                 self.session.login()
-                if self.system_name is not None:
-                    self._change_installation()
+            if self.system_name is not None:
+                self._change_installation()
             self.session.set_smartplug_state(deviceLabel, state)
             if self.logout:
                 self.session.logout()
