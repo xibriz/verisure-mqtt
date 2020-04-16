@@ -17,7 +17,7 @@ class VSControl:
         """
         self.logout = logout
 
-        config = ConfigParser.SafeConfigParser()
+        config = configparser.SafeConfigParser()
         config.readfp(codecs.open(config_file, 'r', 'utf8'))
 
         self.mqtt_ip = config.get('MQTT', 'ip')
