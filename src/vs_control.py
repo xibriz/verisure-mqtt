@@ -86,7 +86,7 @@ class VSControl:
                 self.session.login()
             if self.system_name is not None:
                 self._change_installation()
-            self.session.set_arm_state(self.verisure_pin, state)
+            self.session.set_arm_state(self.verisure_pin, state.decode("utf-8"))
             if self.logout:
                 self.session.logout()
             return True
@@ -115,7 +115,7 @@ class VSControl:
                 self.session.login()
             if self.system_name is not None:
                 self._change_installation()
-            self.session.set_lock_state(self.verisure_pin, deviceLabel, state)
+            self.session.set_lock_state(self.verisure_pin, deviceLabel, state.decode("utf-8"))
             if self.logout:
                 self.session.logout()
             return True
@@ -144,7 +144,7 @@ class VSControl:
                 self.session.login()
             if self.system_name is not None:
                 self._change_installation()
-            self.session.set_smartplug_state(deviceLabel, state)
+            self.session.set_smartplug_state(deviceLabel, state.decode("utf-8"))
             if self.logout:
                 self.session.logout()
             return True
