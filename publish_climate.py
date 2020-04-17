@@ -4,7 +4,7 @@
 """
 Climate sensors are only updated once every 6 hour so there is no point publishing these too often
 Make a cron job that runs every 6th hour:
-0 */6 * * * /usr/bin/python /path/to/publish_climate.py prod.cfg
+0 */6 * * * /path/to/verisure-mqtt/venv/bin/python /path/to/verisure-mqtt/publish_climate.py prod.cfg
 """
 
 import sys

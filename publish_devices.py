@@ -4,7 +4,7 @@
 """
 Publish all other devices except climate values.
 Make a cron job that runs every so often:
-* * * * * /usr/bin/python /path/to/publish_devices.py prod.cfg
+* * * * * /path/to/verisure-mqtt/venv/bin/python /path/to/verisure-mqtt/publish_devices.py prod.cfg
 """
 
 import sys
